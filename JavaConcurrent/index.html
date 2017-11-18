@@ -6,7 +6,7 @@
 
         <title>Многопоточность и JAVA</title>
 
-        <meta name="description" content="Многопоточность и JAVA">
+        <meta name="desrciption" content="Многопоточность и JAVA">
         <meta name="author" content="NAUMEN, Павел Зыков">
 
         <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -20,16 +20,16 @@
         <link rel="stylesheet" href="css/hljs/vs.css" id="highlight-theme">
 
         <!-- Printing and PDF exports -->
-        <script>
+        <srcipt>
             var link = document.createElement( 'link' );
             link.rel = 'stylesheet';
             link.type = 'text/css';
             link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
             document.getElementsByTagName( 'head' )[0].appendChild( link );
-        </script>
+        </srcipt>
 
         <!--[if lt IE 9]>
-        <script src="lib/js/html5shiv.js"></script>
+        <srcipt src="lib/js/html5shiv.js"></srcipt>
         <![endif]-->
 
         <style>
@@ -54,6 +54,7 @@
 .reveal section img {
     border: none;
     box-shadow: none;
+    min-height: 100px
 }
 
 .reveal pre code {
@@ -87,7 +88,7 @@
                 </section>
                 <section>
                     <h2>Процессы и потоки</h2>
-                    <img scr="img/processes_and_threads.png"/>
+                    <img src="img/processes_and_threads.png">
                 </section>
                 <section>
                     <h1>Классические задачи многопоточного программирования</h1>
@@ -97,7 +98,7 @@
                     <ul>
                         <li>Несколько потоков обращаются к общему ресурсу</li>
                     </ul>
-                    <img scr="img/shared_resource.png"/>
+                    <img src="img/shared_resource.png"/>
                 </section>
                 <section>
                     <h2>Производитель-потребитель</h2>
@@ -106,7 +107,7 @@
                         <li>Несколько потоков производят данные и несколько их потребляют</li>
                         <li>Данные могут храниться в очереди (не)ограниченного объема</li>
                     </ul>
-                    <img scr="img/producer_consumer.png"/>
+                    <img src="img/producer_consumer.png"/>
                 </section>
                 <section>
                     <h2>Задача о читателях и писателях</h2>
@@ -115,14 +116,14 @@
                         <li>Писать может только один поток</li>
                         <li>Читать во время записи нельзя</li>
                     </ul>
-                    <img scr="img/readers_and_writers.png"/>
+                    <img src="img/readers_and_writers.png"/>
                 </section>
                 <section>
                     <h2>Задания-работники</h2>
                     <ul>
                         <li>Поток-клиент ждет выполнения задания потоком-сервером</li>
                     </ul>
-                    <img scr="img/task_and_workers.png"/>
+                    <img src="img/task_and_workers.png"/>
                 </section>
                 <section>
                     <h2>Задача об обедающих философах</h2>
@@ -135,26 +136,69 @@
                         </ul></li>
                         <li>Что бы есть нужны обе вилки</li>
                     
-                    <img scr="img/dining_philosophers_problem.png"/>
+                    <img src="img/dining_philosophers_problem.png"/>
                 </section>
                 <section>
-                    <h1>Как создать поток</h1>
-                    <p>something here</p>
+                    <h1>Java Concurrency</h1>
+                    <p>В Java есть два пути разрабоки многопоточных приложений:</p>
+                    <ul>
+                        <li>Сделать всё руками: Thread, Runable, wait/notify, synchronized</li>
+                        <li>Использовать высокоуровневое API: java.utils.concurrent</li>
+                    </ul>
+                </section>
+                <section>
+                    <h1>Как создать поток?</h1>
+                    <p>Реализовать интерфейс Runnable</p>
+                    <pre style="width:auto;"><code data-trim class="java">
+// Создание потока
+Thread t = new Thread(new Runnable() {
+    public void run() {
+        System.out.println("Hello world!");
+    }
+});
+// Запуск потока
+t.start();
+                        </code></pre>
+                </section>
+                <section>
+                    <h1>Как создать поток?</h1>
+                    <p>Наследовать класс Thread</p>
+                    <pre style="width:auto;"><code data-trim class="java">
+// Создание потока
+Thread t = new Thread() {
+    public void run() {
+        System.out.println("Hello world!");
+    }
+};
+// Запуск потока
+t.start();
+                        </code></pre>
                 </section>
                 <section>
                     <h1>Взаимодействие между потоками</h1>
-                    <p>something here</p>
+                    <ul>
+                        <li>Создание потока (create)</li>
+                        <li>Запуск потока (start)</li>
+                        <li>Ожидание окончания потока (join)</li>
+                        <li>Прерывание потока (interrupt)</li>
+                    </ul>
                 </section>
                 <section>
-                    <h1>Терминология многопоточности</h1>
-                    <p>something here</p>
+                    <h1>Примитивы синхронизации</h1>
+                    <ul>
+                        <li>Critical Section</li>
+                        <li>Semaphore</li>
+                        <li>Mutex</li>
+                        <li>Monitor</li>
+                        <li>Lock</li>
+                    </ul>
                 </section>
                 <section>
                     <h1>Как это сделано в java</h1>
                     <p>something here</p>
                 </section>
                 <section>
-                    <h1>проблемы связанные с много поточностью</h1>
+                    <h1>проблемы связанные с многопоточностью</h1>
                     <p>something here</p>
                 </section>
                 <section>
@@ -186,22 +230,15 @@
                     <p>something here</p>
                 </section>
                 <section>
-                        <h1>${SlideWithCodeTitle}</h1>
-                        <pre style="width:auto;"><code data-trim class="java">
-class HelloWorld {
-    public static void main(String[] args) {
-        System.out.println("Hello World!");
-    }
-}
-                        </code></pre>
+                        <h1>Вопросы?</h1>
                 </section>
             </div>
         </div>
 
-        <script src="lib/js/head.min.js"></script>
-        <script src="js/reveal.js"></script>
+        <srcipt src="lib/js/head.min.js"></srcipt>
+        <srcipt src="js/reveal.js"></srcipt>
 
-        <script>
+        <srcipt>
 
             // Full list of configuration options available at:
             // https://github.com/hakimel/reveal.js#configuration
@@ -225,7 +262,7 @@ class HelloWorld {
                 ]
             });
 
-        </script>
+        </srcipt>
 
     </body>
 </html>

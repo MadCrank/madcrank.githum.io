@@ -226,8 +226,8 @@ private void runExperiment(Counter counter) throws InterruptedException
             counter.increment();
         }
     };
-    List&lt;Thread&gt; threads = Stream.generate(() -> new Thread(experiment)).limit(threadsNumber)
-            .collect(Collectors.toList());
+    List&lt;Thread&gt; threads = Stream.generate(() -> new Thread(experiment))
+            .limit(threadsNumber).collect(Collectors.toList());
     threads.forEach(t -> t.start());
     for (Thread thread : threads)
     {

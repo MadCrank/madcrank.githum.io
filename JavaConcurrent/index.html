@@ -214,9 +214,11 @@ public class UnsafeCounter implements Counter
                 <section>
                     <h2>Счетчик</h2>
                     <pre style="width:auto;"><code data-trim class="java">
+Counter counter = new UnsafeCounter();
+ExperimentRunner runner = new ExperimentRunner(4, 5, 100_000_000);
+runner.runExperiments(counter));                    
 ...
-
-private void runExperiment(Counter counter)
+private void runExperiment(Counter counter) throws InterruptedException
 {
     Runnable experiment = () -> {
         for (int i = 0; i < (repeatsNumber / threadsNumber); i++)
@@ -224,21 +226,13 @@ private void runExperiment(Counter counter)
             counter.increment();
         }
     };
-
     List<Thread> threads = Stream.generate(() -> new Thread(experiment)).limit(threadsNumber)
             .collect(Collectors.toList());
-
     threads.forEach(t -> t.start());
-    threads.forEach(t -> {
-        try
-        {
-            t.join();
-        }
-        catch (InterruptedException e)
-        {
-            e.printStackTrace();
-        }
-    });
+    for (Thread thread : threads)
+    {
+        thread.join();
+    }
 }
 ...
                     </code></pre>

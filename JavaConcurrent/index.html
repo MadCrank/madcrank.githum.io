@@ -146,7 +146,7 @@
                         <li>Использовать высокоуровневое API: java.utils.concurrent</li>
                     </ul>
                 </section>
-     <!--           <section>
+                <section>
                     <h1>Как создать поток?</h1>
                     <p>Реализовать интерфейс Runnable</p>
                     <pre style="width:auto;"><code data-trim class="java">
@@ -173,15 +173,87 @@ Thread t = new Thread() {
 // Запуск потока
 t.start();
                         </code></pre>
-                </section>-->
+                </section>
                 <section>
                     <h1>Взаимодействие между потоками</h1>
                     <ul>
-                        <li>Создание потока (create)</li>
+                        <li>Создание потока (new)</li>
                         <li>Запуск потока (start)</li>
                         <li>Ожидание окончания потока (join)</li>
                         <li>Прерывание потока (interrupt)</li>
                     </ul>
+                </section>
+                <section>
+                    <h2>Счетчик</h2>
+                    <pre style="width:auto;"><code data-trim class="java">
+public class UnsafeCounter implements Counter
+{
+    private int counter = 0;
+
+    @Override
+    public int get()
+    {
+        return counter;
+    }
+
+    @Override
+    public void increment()
+    {
+        counter++;
+    }
+
+    @Override
+    public void reset()
+    {
+        counter = 0;
+    }
+
+}
+                    </code></pre>
+                </section>
+                <section>
+                    <h2>Счетчик</h2>
+                    <pre style="width:auto;"><code data-trim class="java">
+...
+
+private void runExperiment(Counter counter)
+{
+    Runnable experiment = () -> {
+        for (int i = 0; i < (repeatsNumber / threadsNumber); i++)
+        {
+            counter.increment();
+        }
+    };
+
+    List<Thread> threads = Stream.generate(() -> new Thread(experiment)).limit(threadsNumber)
+            .collect(Collectors.toList());
+
+    threads.forEach(t -> t.start());
+    threads.forEach(t -> {
+        try
+        {
+            t.join();
+        }
+        catch (InterruptedException e)
+        {
+            e.printStackTrace();
+        }
+    });
+}
+...
+                    </code></pre>
+                </section>
+                <section>
+                    <h2>Счетчик</h2>
+                    <pre>
+Counter 'ru.naumen.counter.impls.UnsafeCounter':
+ Experiment [1/5]:  value = 74618414 time = 25 ms
+ Experiment [2/5]:  value = 66158308 time = 3 ms
+ Experiment [3/5]:  value = 54063137 time = 3 ms
+ Experiment [4/5]:  value = 76346929 time = 4 ms
+ Experiment [5/5]:  value = 44644001 time = 4 ms
+ Average time:  7 ms
+                     </pre>
                 </section>
                 <section>
                     <h1>Примитивы синхронизации</h1>
@@ -192,6 +264,33 @@ t.start();
                         <li>Monitor</li>
                         <li>Lock</li>
                     </ul>
+                </section>
+                <section>
+                    <h1>Счетчик с синхронизированными методами</h1>
+                    <pre style="width:auto;"><code data-trim class="java">
+public class SynchronizedCounter implements Counter
+{
+    private volatile int counter = 0;
+
+    @Override
+    public synchronized int get()
+    {
+        return counter;
+    }
+
+    @Override
+    public synchronized void increment()
+    {
+        counter++;
+    }
+
+    @Override
+    public synchronized void reset()
+    {
+        counter = 0;
+    }
+}
+                    </code></pre>
                 </section>
                 <section>
                     <h1>Как это сделано в java</h1>

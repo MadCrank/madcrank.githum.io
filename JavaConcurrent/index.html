@@ -54,7 +54,7 @@
 .reveal section img {
     border: none;
     box-shadow: none;
-    min-height: 100px
+    max-width:70%
 }
 
 .reveal pre code {
@@ -126,20 +126,7 @@
                     <img src="img/task_and_workers.png"/>
                 </section>
                 <section>
-                    <h2>Задача об обедающих философах</h2>
-                    <ul>
-                        <li>5 Философов, 5 тарелок, 5 вилок</li>
-                        <li>Философ
-                        <ul>
-                            <li>Думает</li>
-                            <li>Ест</li>
-                        </ul></li>
-                        <li>Что бы есть нужны обе вилки</li>
-                    </ul>
-                    <img src="img/dining_philosophers_problem.png"/>
-                </section>
-                <section>
-                    <h1>Java Concurrency</h1>
+                    <h2>Java Concurrency</h2>
                     <p>В Java есть два пути разрабоки многопоточных приложений:</p>
                     <ul>
                         <li>Сделать всё руками: Thread, Runable, wait/notify, synchronized</li>
@@ -147,7 +134,7 @@
                     </ul>
                 </section>
                 <section>
-                    <h1>Как создать поток?</h1>
+                    <h2>Как создать поток?</h2>
                     <p>Реализовать интерфейс Runnable</p>
                     <pre style="width:auto;"><code data-trim class="java">
 // Создание потока
@@ -175,7 +162,7 @@ t.start();
                         </code></pre>
                 </section>
                 <section>
-                    <h1>Взаимодействие между потоками</h1>
+                    <h2>Взаимодействие между потоками</h2>
                     <ul>
                         <li>Создание потока (new)</li>
                         <li>Запуск потока (start)</li>
@@ -249,6 +236,10 @@ Counter 'ru.naumen.counter.impls.UnsafeCounter':
  Average time:  7 ms
                      </pre>
                 </section>
+                 <section>
+                    <h2>Инкремент  не атомарен</h2>
+					<p>картинка<p>
+                </section>
                 <section>
                     <h2>Примитивы синхронизации</h2>
                     <ul>
@@ -260,7 +251,7 @@ Counter 'ru.naumen.counter.impls.UnsafeCounter':
                     </ul>
                 </section>
                 <section>
-                    <h2>Счетчик с синхронизированными методами</h2>
+                    <h2>ключевое слово synchronized</h2>
                     <pre style="width:auto;"><code data-trim class="java">
 public class SynchronizedCounter implements Counter
 {
@@ -287,39 +278,58 @@ public class SynchronizedCounter implements Counter
                     </code></pre>
                 </section>
                 <section>
-                    <h1>Как это сделано в java</h1>
+                    <h2>ключевое слово synchronized</h2>
+                    <pre style="width:auto;"><code data-trim class="java">
+Object lock = new Object();                    
+synchronized(lock)
+{
+	//do something
+	if(someCondition)
+	{
+		lock.wait()
+	}
+	//do something
+	if(anotherContition)
+	{
+		lock.notify()
+	}
+}
+                    </code></pre>
+                </section>
+                <section>
+                    <h2>jmm и volatile</h2>
                     <p>something here</p>
                 </section>
                 <section>
-                    <h1>проблемы связанные с многопоточностью</h1>
+                    <h2>ReentrantLock</h2>
                     <p>something here</p>
                 </section>
                 <section>
-                    <h1>как их решает java</h1>
+                    <h2>ReentrantReadWriteLock</h2>
+                    <p>something here</p>
+                </section>
+                 <section>
+                    <h2>java.util.concurrent.atomic</h2>
                     <p>something here</p>
                 </section>
                 <section>
-                    <h1>jmm и volatile</h1>
+                    <h2>коллекции</h2>
                     <p>something here</p>
                 </section>
                 <section>
-                    <h1>коллекции</h1>
+                    <h2>java executorservice framework</h2>
                     <p>something here</p>
                 </section>
                 <section>
-                    <h1>java executorservice framework</h1>
+                    <h2>completable future</h2>
                     <p>something here</p>
                 </section>
                 <section>
-                    <h1>completable future</h1>
+                    <h2>Fork Join</h2>
                     <p>something here</p>
                 </section>
                 <section>
-                    <h1>Fork Join</h1>
-                    <p>something here</p>
-                </section>
-                <section>
-                    <h1>Parallel Stream</h1>
+                    <h2>Parallel Stream</h2>
                     <p>something here</p>
                 </section>
                 <section>

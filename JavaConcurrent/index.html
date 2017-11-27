@@ -76,24 +76,12 @@
     bottom: 0.5em;
 }
 
-.reveal .problem{
-    background: url(img/problem.png);
+.reveal .cartoon{
     position: absolute;
     right: 0;
     bottom:0;
-    background-repeat: no-repeat;
-    width: 200px;
-    height: 200px;
 }
-.reveal .boo{
-    background: url(img/boo.png);
-    position: absolute;
-    right: 0;
-    bottom:0;
-    background-repeat: no-repeat;
-    width: 210px;
-    height: 230px;
-}
+
 .reveal .rubber_stamp {
   font-family: 'Vollkorn', serif;
   font-size: 39px;
@@ -244,6 +232,7 @@ t.start();
                     <pre style="width:auto;"><code data-trim class="java">
 long getId()
 String getName()
+void setName(String name)
 int getPriority()
 void setPriority(int priority)
 static void sleep(long ms)
@@ -252,14 +241,44 @@ static boolean interrupted()
 void join()
 static void yield()
                     </code></pre>
+                    <div class="cartoon fragment"><img src="img/threads_and_kitten.png"/></div>
+                </section>
+                <section>
+                    <h2>Прерывания</h2>
+                    <pre style="width:auto;"><code data-trim class="java">
+thread.interrupt(); //прервать поток thread
+
+try
+{
+    Thread.sleep(5000);
+}
+catch(InterruptedException e) //нас прервали
+{
+    return;
+}
+
+for(int i = 0; i< inputs[i];i++)
+{
+    heavyTask(inputs[i]);
+    if(Thread.interrupted()) //нас прервали
+    {
+        return;
+    }
+}
+
+                    </code></pre>
+                </section>
+                <section>
+                    <h2>Состояния потоков</h2>
+                    <img src="img/thread_states.png"/>
                 </section>
                 <section>
                     <h2>Классические задачи многопоточного программирования</h2>
-                    <div class="problem">&nbsp;</div>
+                    <div class="cartoon"><img src="img/problem.png"/></div>
                 </section>
                 <section>
                     <h2>Задача доступа к общему ресурсу</h2>
-                    <div class="problem">&nbsp;</div>
+                    <div class="cartoon"><img src="img/problem.png"/></div>
                     <ul>
                         <li>Несколько потоков обращаются к общему ресурсу</li>
                     </ul>
@@ -406,7 +425,7 @@ Counter 'ru.naumen.counter.impls.UnsafeCounter':
  Average time:  7 ms
                      </pre>
                      <p>Быстро, но неправильно.</p>
-                     <div class="boo">&nbsp;</div>
+                     <div class="cartoon"><img src="img/boo.png"/></div>
                 </section>
                  <section>
                     <h2>Инкремент  не атомарен</h2>
@@ -535,7 +554,14 @@ public class JobQueue
                 </section>
                 <section>
                     <h2>volatile</h2>
-                    <p>something here</p>
+                    <ul>
+                    <li>Потоки могут кешировать переменные</li>
+                    <li>Значения в кешах разных потоков могут не совпадать</li>
+                    </ul>
+                    <pre style="width:auto;"><code data-trim class="java">
+volatile int i = 0; // означает, то что переменную i 
+                    //нужно всегда брать из общей памяти
+                    </code></pre>
                 </section>
                 <section>
                     <h2>interface Lock</h2>
@@ -600,6 +626,47 @@ public class ReentrantLockCounter implements Counter
                     <div class="rubber_stamp fragment">AVG. TIME = 3654 ms</div>
                 </section>
                 <section>
+                    <h2>interface Condition</h2>
+                    <ul>
+                        <li>Методы:</li>
+                        <pre style="width:auto;"><code data-trim class="java">
+void await() throws InterruptedException;
+void signal();
+void signalAll();
+                        </code></pre>
+                        <li>Создание:</li>
+                        <pre style="width:auto;"><code data-trim class="java">
+Lock lock = new ReentrantLock();
+Condition blockingPoolA = lock.newCondition();
+Condition blockingPoolB = lock.newCondition();
+Condition blockingPoolC = lock.newCondition();
+                        </code></pre>
+                    </ul>
+                </section>
+                <section>
+                    <h2>Condition: применение</h2>
+                    <pre style="width:auto;"><code data-trim class="java">
+//Первый поток захватывает блокировку, 
+//затем вызывает await() у объекта Condition:
+
+lock.lock();
+try { blockingPoolA.await(); // ждём второй поток
+// продолжаем работу
+} 
+catch (InterruptedException ex) {}
+finally {lock.unlock();}
+
+//Второй поток выполняет свою часть и будит первый поток:
+
+lock.lock();
+try {
+// выполнение работы
+blockingPoolA.signalAll();  //будим 1 поток
+} 
+finally {lock.unlock();}
+                    </code></pre>
+                </section>
+                <section>
                     <h2>Задача о читателях и писателях</h2>
                     <ul>
                         <li>Читать могут много потоков одновременно</li>
@@ -607,7 +674,7 @@ public class ReentrantLockCounter implements Counter
                         <li>Читать во время записи нельзя</li>
                     </ul>
                     <img src="img/readers_and_writers.png"/>
-                    <div class="problem"></div>
+                    <div class="cartoon"><img src="img/problem.png"/></div>
                 </section>
                 <section>
                     <h2>ReentrantReadWriteLock</h2>
@@ -694,15 +761,15 @@ public class StampedLockCounter implements Counter
                 <section>
                     <h2>Атомарные операции</h2>
                     <p>Атомарные операции выполняются целиком, их выполнение не может быть прервано планировщиком потоков.</p>
-                    <p>Специальные классы для выполнения атомарных операций находятся в пакете java.util.concurrent.atomic:</p>
+                    <p>Аппаратная поддержка — compare-and-swap</p>
+                    <p>Классы для выполнения атомарных операций находятся в java.util.concurrent.atomic:</p>
                     <ul>
                         <li>AtomicInteger</li>
                         <li>AtomicLong</li>
                         <li>AtomicDouble</li>
                         <li>AtomicReference</li>
-                        <li>… и другие.</li>
                     </ul>
-                    <p>Аппаратная поддержка — compare-and-swap</p>
+                    
                 </section>
                 <section>
                     <h2>CAS</h2>
@@ -787,6 +854,50 @@ public class AtomicCounter implements Counter
                     </table>
                 </section>
                 <section>
+                    <h2>ThreadLocal</h2>
+                    <ul>
+                        <li>Позволяет хранить данные изолированно от других потоков</li>
+                    </ul>
+                    <pre style="width:auto;"><code data-trim class="java">
+ThreadLocal<ArrayList<Whatever>> myThreadLocal = ThreadLocal.withInitial(ArrayList::new);
+                    </code></pre>
+                </section>
+                <section>
+                    <h2>Потокобезопасные структуры данных</h2>
+                    <ul>
+                        <li>CopyOnWriteArrayList</li>
+                        <li>CopyOnWriteArraySet</li>
+                        <li>ConcurrentHashMap</li>
+                        <li>ConcurrentLinkedDeque</li>
+                        <li>ConcurrentLinkedQueue</li>
+                        <li>ConcurrentSkipListMap</li>
+                        <li>ConcurrentSkipListSet</li>
+                    </ul>
+                </section>
+                 <section>
+                    <h2>Copy-on-write</h2>
+                    <ul>
+                        <li>CopyOnWriteArrayList и CopyOnWriteArraySet основаны на массиве, копируемом при операции записи</li>
+                        <li>Уже открытые итераторы при этом не увидят изменений в коллекции</li>
+                        <li>Эти коллекции следует использовать только когда 90+% операций являются операциями чтения</li>
+                        <li>При частых операциях модификации большая коллекция способна убить производительность</li>
+                        <li>Сортировка этих коллекций не поддерживается, т.к. вставки очень дорогие</li>
+                        <li>Итераторы по этим коллекциям не поддерживают операций модификации</li>
+                    </ul>
+                </section>
+                <section>
+                    <h2>Блокирующие очереди</h2>
+                    <ul>
+                        <li>ArrayBlockingQueue</li>
+                        <li>LinkedBlockingDeque</li>
+                        <li>LinkedBlockingQueue</li>
+                        <li>PriorityBlockingQueue</li>
+                        <li>DelayQueue              элементы с задержкой</li>
+                        <li>LinkedTransferQueue     универсальная очередь</li>
+                        <li>SynchronousQueue        ёмкость 0</li>
+                    </ul>
+                </section>
+                <section>
                     <h2>Производитель-потребитель</h2>
                     <ul>
                         <li>Один поток производит данные, второй их потребляет</li>
@@ -794,11 +905,7 @@ public class AtomicCounter implements Counter
                         <li>Данные могут храниться в очереди (не)ограниченного объема</li>
                     </ul>
                     <img src="img/producer_consumer.png"/>
-                    <div class="problem"></div>
-                </section>
-                <section>
-                    <h2>Concurrent Collections</h2>
-                    <p>something here</p>
+                    <div class="cartoon"><img src="img/problem.png"/></div>
                 </section>
                 <section>
                     <h2>Задания-работники</h2>
@@ -806,7 +913,7 @@ public class AtomicCounter implements Counter
                         <li>Поток-клиент ждет выполнения задания потоком-сервером</li>
                     </ul>
                     <img src="img/task_and_workers.png"/>
-                    <div class="problem"></div>
+                    <div class="cartoon"><img src="img/problem.png"/></div>
                 </section>
                 <section>
                     <h2>ExecutorService Framework</h2>

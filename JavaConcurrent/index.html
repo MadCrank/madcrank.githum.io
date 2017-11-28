@@ -114,6 +114,11 @@
   padding: 10px;
   background: url(img/noise.png) repeat;
 }
+.reveal  .nau{
+            color: orangered;
+            font-weight: bold;
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        }
         </style>
     </head>
 
@@ -121,7 +126,7 @@
 
         <div class="reveal">
             <div class="footer">
-                NAUMEN, Павел Зыков
+                <span class="nau">NAUMEN</span> Павел Зыков
             </div>
             <!-- Any section element inside of this container is displayed as a slide -->
             <div class="slides">
@@ -247,25 +252,29 @@ static void yield()
                     <h2>Прерывания</h2>
                     <pre style="width:auto;"><code data-trim class="java">
 thread.interrupt(); //прервать поток thread
-
-try
-{
+                    </code></pre>
+                </section>
+                                <section>
+                    <h2>Прерывания</h2>
+                    <pre style="width:auto;"><code data-trim class="java">
+try{
     Thread.sleep(5000);
 }
-catch(InterruptedException e) //нас прервали
-{
+catch(InterruptedException e){ //нас прервали
+
     return;
 }
-
-for(int i = 0; i< inputs[i];i++)
-{
+                    </code></pre>
+                </section>
+                <section>
+                    <h2>Прерывания</h2>
+                    <pre style="width:auto;"><code data-trim class="java">
+for(int i = 0; i< inputs[i];i++){
     heavyTask(inputs[i]);
-    if(Thread.interrupted()) //нас прервали
-    {
+    if(Thread.interrupted()){ //нас прервали
         return;
     }
 }
-
                     </code></pre>
                 </section>
                 <section>
@@ -287,25 +296,21 @@ for(int i = 0; i< inputs[i];i++)
                 <section>
                     <h2>Счетчик</h2>
                     <pre style="width:auto;"><code data-trim class="java">
-public class UnsafeCounter implements Counter
-{
+public class UnsafeCounter implements Counter{
     private int counter = 0;
 
     @Override
-    public int get()
-    {
+    public int get(){
         return counter;
     }
 
     @Override
-    public void increment()
-    {
+    public void increment(){
         counter++;
     }
 
     @Override
-    public void reset()
-    {
+    public void reset(){
         counter = 0;
     }
 
@@ -314,25 +319,21 @@ public class UnsafeCounter implements Counter
                 </section>
                 <section>
                     <pre style="width:auto;"><code data-trim class="java small">
-public class ExperimentRunner
-{
+public class ExperimentRunner{
     private int threadsNumber;
     private int experimentsNumber;
     private int repeatsNumber;
 
-    public ExperimentRunner(int threadsNumber, int experimentsNumber, int repeatsNumber)
-    {
+    public ExperimentRunner(int threadsNumber, int experimentsNumber, int repeatsNumber){
         this.threadsNumber = threadsNumber;
         this.experimentsNumber = experimentsNumber;
         this.repeatsNumber = repeatsNumber;
     }
 
-    public void runExperiments(Counter counter)
-    {
+    public void runExperiments(Counter counter){
         long totalTime = 0;
         System.out.format("Counter '%s':\n", counter.getClass().getName());
-        for (int i = 0; i < experimentsNumber; i++)
-        {
+        for (int i = 0; i < experimentsNumber; i++){
             long startTime = System.currentTimeMillis();
             runExperiment(counter);
             long elapsed = (System.currentTimeMillis() - startTime);
@@ -344,11 +345,9 @@ public class ExperimentRunner
         System.out.format(" Average time:\t%d ms\n", totalTime / experimentsNumber);
     }
 
-    private void runExperiment(Counter counter)
-    {
+    private void runExperiment(Counter counter){
         Runnable experiment = () -> {
-            for (int i = 0; i < (repeatsNumber / threadsNumber); i++)
-            {
+            for (int i = 0; i < (repeatsNumber / threadsNumber); i++){
                 counter.increment();
             }
         };
@@ -358,12 +357,10 @@ public class ExperimentRunner
 
         threads.forEach(t -> t.start());
         threads.forEach(t -> {
-            try
-            {
+            try{
                 t.join();
             }
-            catch (InterruptedException e)
-            {
+            catch (InterruptedException e){
                 e.printStackTrace();
             }
         });
@@ -374,11 +371,9 @@ public class ExperimentRunner
                 <section>
                     <h2>Запуск эксперимента</h2>
                     <pre style="width:auto;"><code data-trim class="java">
-private void runExperiment(Counter counter)
-{
+private void runExperiment(Counter counter){
     Runnable experiment = () -> {
-        for (int i = 0; i < (repeatsNumber / threadsNumber); i++)
-        {
+        for (int i = 0; i < (repeatsNumber / threadsNumber); i++){
             counter.increment();
         }
     };
@@ -388,12 +383,10 @@ private void runExperiment(Counter counter)
 
     threads.forEach(t -> t.start());
     threads.forEach(t -> {
-        try
-        {
+        try{
             t.join();
         }
-        catch (InterruptedException e)
-        {
+        catch (InterruptedException e){
             e.printStackTrace();
         }
     });
@@ -479,25 +472,21 @@ leave()://Освобождение семафора (увеличить счёт
                     <h2>Ключевое слово synchronized</h2>
                     <p>Синхронизация методов на текущем объекте</p>
                     <pre style="width:auto;"><code data-trim class="java">
-public class SynchronizedCounter implements Counter
-{
+public class SynchronizedCounter implements Counter{
     private int counter = 0;
 
     @Override
-    public synchronized int get()
-    {
+    public synchronized int get(){
         return counter;
     }
 
     @Override
-    public synchronized void increment()
-    {
+    public synchronized void increment(){
         counter++;
     }
 
     @Override
-    public synchronized void reset()
-    {
+    public synchronized void reset(){
         counter = 0;
     }
 }
@@ -509,8 +498,7 @@ public class SynchronizedCounter implements Counter
                     <p>Синхронизация блока на произвольном объекте</p>
                     <pre style="width:auto;"><code data-trim class="java">
 Object lock = new Object();                    
-synchronized(lock)
-{
+synchronized(lock){
 	//do something
 }
                     </code></pre>
@@ -519,10 +507,8 @@ synchronized(lock)
                     <h2>Ключевое слово synchronized</h2>
                     <p>Синхронизация статического метода</p>
                     <pre style="width:auto;"><code data-trim class="java">
-public class TestStaticSync
-{
-    public static synchronized void doSomething()
-    {
+public class TestStaticSync{
+    public static synchronized void doSomething(){
         //do something
     }
 }
@@ -530,27 +516,55 @@ public class TestStaticSync
                     <p>Синхронизация происходит на объекте TestStaticSync.class</p>
                 </section>
                 <section>
-                    <h2>wait()/notify()/notifyAll()</h2>
+                    <h2>Singleton</h2>
+                    <ul>
+                        <li>Потокобезопасный
+                            <ul>
+                                <li>Все получат один и тот же синглетон</li>
+                                <li>Корректно проиницилизирован</li>
+                            </ul>
+                        </li>
+                        <li>Ленивый</li>
+                        <li>Эффективный</li>
+                    </ul>
+                </section>
+                <section>
+                    <h2>Synchronized Accessor</h2>
                     <pre style="width:auto;"><code data-trim class="java">
-public class JobQueue
-{
- List&lt;Runnable&gt; jobs = new ArrayList&lt;&gt;();
-
- public synchronized void put(Runnable job)
- {
-  jobs.add(job);
-  this.notifyAll();
- }
-
- public synchronized Runnable getJob()
- {
-  while (jobs.size()==0)
-   this.wait();
-
-  return jobs.remove(0);
- }
+public class Singleton{
+    private static Singleton instance;
+    
+    public static synchronized Singleton getInstance(){
+        if (instance == null){
+            instance = new Singleton();
+        }
+        return instance;
+    }
 }
                     </code></pre>
+                    <div class="cartoon fragment"><img src="img/boo.png"/></div>
+                </section>
+                <section>
+                    <h2>Double Checked Locking</h2>
+                    <pre style="width:auto;"><code data-trim class="java">
+public class Singleton {
+        private static Singleton instance;
+    
+        public static Singleton getInstance() {
+        Singleton localInstance = instance;
+        if (localInstance == null) {
+            synchronized (Singleton.class) {
+                localInstance = instance;
+                if (localInstance == null) {
+                    instance = localInstance = new Singleton();
+                }
+            }
+        }
+        return localInstance;
+    }
+}
+                    </code></pre>
+                    <div class="cartoon fragment"><img src="img/boo.png"/></div>
                 </section>
                 <section>
                     <h2>volatile</h2>
@@ -561,6 +575,53 @@ public class JobQueue
                     <pre style="width:auto;"><code data-trim class="java">
 volatile int i = 0; // означает, то что переменную i 
                     //нужно всегда брать из общей памяти
+                    </code></pre>
+                </section>
+                                <section>
+                    <h2>Double Checked Locking &amp; volatile</h2>
+                    <pre style="width:auto;"><code data-trim class="java">
+public class Singleton {
+        private static volatile Singleton instance;
+    
+        public static Singleton getInstance() {
+        Singleton localInstance = instance;
+        if (localInstance == null) {
+            synchronized (Singleton.class) {
+                localInstance = instance;
+                if (localInstance == null) {
+                    instance = localInstance = new Singleton();
+                }
+            }
+        }
+        return localInstance;
+    }
+}
+                    </code></pre>
+                    <div class="cartoon fragment"><img src="img/thumbs_up.png"/></div>
+                </section>
+                <section>
+                    <h2>Очередь заданий</h2>
+                    <img src="img/producer-consumer-model.png"/>
+                    <div class="cartoon"><img src="img/problem.png"/></div>
+                </section>
+                <section>
+                    <h2>wait()/notify()/notifyAll()</h2>
+                    <pre style="width:auto;"><code data-trim class="java">
+public class JobQueue{
+ List&lt;Runnable&gt; jobs = new ArrayList&lt;&gt;();
+
+ public synchronized void put(Runnable job){
+  jobs.add(job);
+  this.notifyAll();
+ }
+
+ public synchronized Runnable getJob(){
+  while (jobs.size()==0){
+   this.wait();
+  }
+  return jobs.remove(0);
+ }
+}
                     </code></pre>
                 </section>
                 <section>
@@ -577,50 +638,39 @@ finally
     l.unlock() //гарантия того, что блокировка будет отпущена
 }
                     </code></pre>
+                </section>
+                <section>
+                    <h2>interface Lock</h2>
                     <ul>
                         <p>Широко используются две основные реализации Lock:</p>
-                        <li>ReentrantLock - допускает вложенные критические секции </li>
+                        <li>ReentrantLock</li>
                         <li>ReadWriteLock - имеет разные механизмы блокировки на чтение и запись, позволяя уменьшить накладные расходы</li>
                     </ul>
                 </section>
                 <section>
                     <h2>ReentrantLock</h2>
-                    <pre style="width:auto;"><code data-trim class="java medium">
-public class ReentrantLockCounter implements Counter
-{
+                    <pre style="width:auto;"><code data-trim class="java">
+public class ReentrantLockCounter implements Counter{
     ReentrantLock lock;
     private int counter = 0;
 
-    public ReentrantLockCounter(boolean fair)
-    {
+    public ReentrantLockCounter(boolean fair){
         lock = new ReentrantLock(fair);
     }
 
-    @Override
-    public int get()
-    {
-        lock.lock();
-        int value = counter;
-        lock.unlock();
-        return value;
-    }
+    ...
 
     @Override
-    public void increment()
-    {
+    public void increment(){
         lock.lock();
-        counter++;
-        lock.unlock();
-
+        try{
+            counter++;
+        }
+        finally{
+            lock.unlock();
+        }
     }
-
-    @Override
-    public void reset()
-    {
-        lock.lock();
-        counter = 0;
-        lock.unlock();
-    }
+    ...
 }
                     </code></pre>
                     <div class="rubber_stamp fragment">AVG. TIME = 3654 ms</div>
@@ -634,6 +684,11 @@ void await() throws InterruptedException;
 void signal();
 void signalAll();
                         </code></pre>
+                    </ul>
+                </section>
+                <section>
+                    <h2>interface Condition</h2>
+                    <ul>
                         <li>Создание:</li>
                         <pre style="width:auto;"><code data-trim class="java">
 Lock lock = new ReentrantLock();
@@ -646,24 +701,27 @@ Condition blockingPoolC = lock.newCondition();
                 <section>
                     <h2>Condition: применение</h2>
                     <pre style="width:auto;"><code data-trim class="java">
-//Первый поток захватывает блокировку, 
-//затем вызывает await() у объекта Condition:
+public class JobQueueWithLock{
+    List&lt;Runnable&gt; jobs = new ArrayList&lt;&gt;();
+    Lock lock = new ReentrantLock();
+    Condition cond = lock.newCondition();
 
-lock.lock();
-try { blockingPoolA.await(); // ждём второй поток
-// продолжаем работу
-} 
-catch (InterruptedException ex) {}
-finally {lock.unlock();}
+    public void put(Runnable job){
+        lock.lock();
+        try {
+            jobs.add(job);
+            cond.signalAll();
+        } 
+        finally {lock.unlock();}
+    }
 
-//Второй поток выполняет свою часть и будит первый поток:
-
-lock.lock();
-try {
-// выполнение работы
-blockingPoolA.signalAll();  //будим 1 поток
-} 
-finally {lock.unlock();}
+    public Runnable getJob(){
+        while (jobs.size()==0){
+            cond.await(); 
+        }
+        return jobs.remove(0);
+    }
+}
                     </code></pre>
                 </section>
                 <section>
@@ -678,48 +736,32 @@ finally {lock.unlock();}
                 </section>
                 <section>
                     <h2>ReentrantReadWriteLock</h2>
-                    <pre style="width:auto;"><code data-trim class="java medium">
-public class RWLockCounter implements Counter
-{
+                    <pre style="width:auto;"><code data-trim class="java">
+public class RWLockCounter implements Counter{
     ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
     private int counter = 0;
 
-    public RWLockCounter(boolean fair)
-    {
+    public RWLockCounter(boolean fair){
         lock = new ReentrantReadWriteLock(fair);
     }
 
-    @Override
-    public int get()
-    {
-        lock.readLock().lock();
-        int value = counter;
-        lock.readLock().unlock();
-        return value;
-    }
+    ...
 
     @Override
-    public void increment()
-    {
+    public void increment(){
         lock.writeLock().lock();
         counter++;
         lock.writeLock().unlock();
     }
 
-    @Override
-    public void reset()
-    {
-        lock.writeLock().lock();
-        counter = 0;
-        lock.writeLock().unlock();
-    }
+    ...
 }
                     </code></pre>
                     <div class="rubber_stamp fragment">AVG. TIME = 3544 ms</div>
                 </section>
                 <section>
                     <h2>StampedLock</h2>
-                    <pre style="width:auto;"><code data-trim class="java medium">
+                    <pre style="width:auto;"><code data-trim class="java">
 public class StampedLockCounter implements Counter
 {
     StampedLock lock;
@@ -730,14 +772,7 @@ public class StampedLockCounter implements Counter
         lock = new StampedLock();
     }
 
-    @Override
-    public int get()
-    {
-        long stamp = lock.readLock();
-        int value = counter;
-        lock.unlockRead(stamp);
-        return value;
-    }
+    ...
 
     @Override
     public void increment()
@@ -747,13 +782,7 @@ public class StampedLockCounter implements Counter
         lock.unlockWrite(stamp);
     }
 
-    @Override
-    public void reset()
-    {
-        long stamp = lock.writeLock();
-        counter = 0;
-        lock.unlockWrite(stamp);
-    }
+    ...
 }
                     </code></pre>
                     <div class="rubber_stamp fragment">AVG. TIME = 3164 ms</div>
@@ -762,6 +791,9 @@ public class StampedLockCounter implements Counter
                     <h2>Атомарные операции</h2>
                     <p>Атомарные операции выполняются целиком, их выполнение не может быть прервано планировщиком потоков.</p>
                     <p>Аппаратная поддержка — compare-and-swap</p>
+                </section>
+                <section>
+                    <h2>Атомарные операции</h2>
                     <p>Классы для выполнения атомарных операций находятся в java.util.concurrent.atomic:</p>
                     <ul>
                         <li>AtomicInteger</li>
@@ -769,7 +801,6 @@ public class StampedLockCounter implements Counter
                         <li>AtomicDouble</li>
                         <li>AtomicReference</li>
                     </ul>
-                    
                 </section>
                 <section>
                     <h2>CAS</h2>
@@ -859,7 +890,21 @@ public class AtomicCounter implements Counter
                         <li>Позволяет хранить данные изолированно от других потоков</li>
                     </ul>
                     <pre style="width:auto;"><code data-trim class="java">
-ThreadLocal<ArrayList<Whatever>> myThreadLocal = ThreadLocal.withInitial(ArrayList::new);
+public class ShoppingCard{
+    ThreadLocal&lt;ArrayList&lt;Item>> myThreadLocal = ThreadLocal.withInitial(ArrayList::new);
+
+    public void add(Item item){
+        myThreadLocal.get().add(item);
+    }
+
+    public void remove(Item item){
+        myThreadLocal.get().add(item);
+    }
+
+    public void printReceipt(){
+        myThreadLocal.get().forEach(item->System.out.format("%s - %d$",item.getName(),item.getPrice()));
+    }
+}
                     </code></pre>
                 </section>
                 <section>
@@ -878,23 +923,10 @@ ThreadLocal<ArrayList<Whatever>> myThreadLocal = ThreadLocal.withInitial(ArrayLi
                     <h2>Copy-on-write</h2>
                     <ul>
                         <li>CopyOnWriteArrayList и CopyOnWriteArraySet основаны на массиве, копируемом при операции записи</li>
-                        <li>Уже открытые итераторы при этом не увидят изменений в коллекции</li>
-                        <li>Эти коллекции следует использовать только когда 90+% операций являются операциями чтения</li>
-                        <li>При частых операциях модификации большая коллекция способна убить производительность</li>
-                        <li>Сортировка этих коллекций не поддерживается, т.к. вставки очень дорогие</li>
-                        <li>Итераторы по этим коллекциям не поддерживают операций модификации</li>
-                    </ul>
-                </section>
-                <section>
-                    <h2>Блокирующие очереди</h2>
-                    <ul>
-                        <li>ArrayBlockingQueue</li>
-                        <li>LinkedBlockingDeque</li>
-                        <li>LinkedBlockingQueue</li>
-                        <li>PriorityBlockingQueue</li>
-                        <li>DelayQueue              элементы с задержкой</li>
-                        <li>LinkedTransferQueue     универсальная очередь</li>
-                        <li>SynchronousQueue        ёмкость 0</li>
+                        <li>Хороши когда 90% записи</li>
+                        <li>При частой записи большая коллекция может убить производительность</li>
+                        <li>Сортировки нет</li>
+                        <li>Итераторы не поддерживают операций модификации</li>
                     </ul>
                 </section>
                 <section>
@@ -916,6 +948,26 @@ ThreadLocal<ArrayList<Whatever>> myThreadLocal = ThreadLocal.withInitial(ArrayLi
                     <div class="cartoon"><img src="img/problem.png"/></div>
                 </section>
                 <section>
+                    <h2>Блокирующие очереди</h2>
+                    <ul>
+                        <li>ArrayBlockingQueue</li>
+                        <li>LinkedBlockingDeque</li>
+                        <li>LinkedBlockingQueue</li>
+                        <li>PriorityBlockingQueue</li>
+                        <li>DelayQueue              элементы с задержкой</li>
+                        <li>LinkedTransferQueue     универсальная очередь</li>
+                        <li>SynchronousQueue        ёмкость 0</li>
+                    </ul>
+                </section>
+                <section>
+                    <h2>Пул потоков</h2>
+                    <ul>
+                        <li>Переиспользование потоков</li>
+                        <li>Ограниченное число потоков</li>
+                        <li>Очередь заданий</li>
+                    </ul>
+                </section>
+                <section>
                     <h2>ExecutorService Framework</h2>
                     <p><b>Цель применения:</b> отделить работу, выполняемую внутри потока, от логики создания потоков.</p>
                     <p>Создание:</p>
@@ -931,51 +983,31 @@ Executors.newScheduledThreadPool();     //Можно настроить заде
                     </code></pre>
                 </section>
                 <section>
-                    <pre style="width:auto;"><code data-trim class="java small">
-public class ClientWorkersExample
-{
-    public static void main(String[] args) throws InterruptedException
-    {
-        ExecutorService workers = Executors.newFixedThreadPool(5);
-        ExecutorService clients = Executors.newFixedThreadPool(10);
+                <h2>Clients &amp; Workers</h2>
+                <pre style="width:auto;"><code data-trim class="java">
+ExecutorService workers = Executors.newFixedThreadPool(5);
+ExecutorService clients = Executors.newFixedThreadPool(10);
 
-        for (int i = 3; i < 20; i++)
-        {
-            Callable&lt;Long> task;
-            final int idx = i;
-            if (i % 2 == 0)
-            {
-                task = () -> {
-                    return Stream.iterate(new long[] { 1, 1 }, f -> new long[] { f[1], f[0] + f[1] }).limit(idx)
-                            .skip(idx - 1).findFirst().get()[0];
-                };
-            }
-            else
-            {
-                task = () -> {
-                    return LongStream.rangeClosed(2, idx).reduce(1, (a, b) -> a * b);
-                };
-            }
-            Future&lt;Long> future = workers.submit(task);
+for (int i = 3; i < 20; i++){
+    final int idx = i;
+    Callable&lt;Long> task = (i % 2 == 0)? (()->calculateFibonacci(idx)):
+                                        (()->calculateFactorial(idx));
+    Future&lt;Long> future = workers.submit(task);
 
-            clients.execute(() -> {
-
-                Long result;
-                try
-                {
-                    result = future.get();
-                    System.out.format("%s for %d = %d\n", idx % 2 == 0 ? "Fibonacci" : "Factorial", idx, result);
-                }
-                catch (InterruptedException | ExecutionException e)
-                {
-                    e.printStackTrace();
-                }
-            });
+    clients.execute(() -> {
+        try{
+            Long result = future.get();
+            System.out.format("%s for %d = %d\n", 
+                               idx % 2 == 0 ? "Fibonacci" : "Factorial",
+                               idx, result);
+        } 
+        catch (InterruptedException | ExecutionException e){
+            e.printStackTrace();
         }
-        workers.shutdown();
-        clients.shutdown();
-    }
+    });
 }
+workers.shutdown();
+clients.shutdown();
                     </code></pre>
                 </section>
                 <section>
@@ -988,14 +1020,8 @@ public class ClientWorkersExample
                         </ul>
                         <li><b>ForkJoinTask&lt;V></b></li>
                         <ul>
-                            <li> Абстракция для типичной задачи, напрямую не
-                            используют, есть два публичных подкласса:</li>
-                            <ul>
-                                <li> RecursiveAction: Рекурсивное действие</li>
-                                <li> RecursiveTask&lt;V>: Рекурсивное действие, возвращающее результат</li>
-                            </ul>
-                            <li> Пользовательские задачи должны быть подклассами
-                            RecursiveAction или RecursiveTask&lt;V></li>
+                            <li> RecursiveAction</li>
+                            <li> RecursiveTask&lt;V></li>
                         </ul>
                     </ul>
                 </section>
@@ -1007,43 +1033,52 @@ public class ClientWorkersExample
                             <li>У каждого потока своя очередь</li>
                             <li>С головой очереди может работать только владелец</li>
                             <li>Свободные потоки крадут задачи у перегруженных(из хвоста)</li>
-                            <li>Из хвоста же может брать и владелец(asyncMode = true)</li>
                         </ul>
                     </ul>
                 </section>
                 <section>
                     <h2>Fork/Join API</h2>
                     <p>Пример RecursiveTask</p>
-                    <pre style="width:auto;"><code data-trim class="java small">
-private static class StandardTask extends RecursiveTask<Long> 
-{
+                    <pre style="width:auto;"><code data-trim class="java medium">
+private static class StandardTask extends RecursiveTask&lt;Long>{
     private final Problem problem;
     private final int l;
     private final int r;
-    public StandardTask(Problem p, int l, int r) 
-    {
+    public StandardTask(Problem p, int l, int r) {
         this.problem = p;
         this.l = l;
         this.r = r;
     }
     @Override
-    protected Long compute() 
-    {
-        if (r - l <= THRESHOLD) 
-        {
+    protected Long compute() {
+        if (r - l <= THRESHOLD){
             return problem.solve(l, r);
         }
         int mid = (l + r) >>> 1;
-        ForkJoinTask<Long> t1 = new StandardTask(problem, l, mid);
-        ForkJoinTask<Long> t2 = new StandardTask(problem, mid, r);
+        ForkJoinTask&lt;Long> t1 = new StandardTask(problem, l, mid);
+        ForkJoinTask&lt;Long> t2 = new StandardTask(problem, mid, r);
         t1.fork(); 
         t2.fork(); 
         long res = 0;
         res += t2.join(); 
         res += t1.join(); 
-        return
+        return res;
     }
  }
+                     </code></pre>
+                </section>
+                <section>
+                    <h2>Fork/Join API</h2>
+                    <p>Пример RecursiveTask</p>
+                    <pre style="width:auto;"><code data-trim class="java">
+ForkJoinTask&lt;Long> t1 = new StandardTask(problem, l, mid);
+ForkJoinTask&lt;Long> t2 = new StandardTask(problem, mid, r);
+t1.fork(); 
+t2.fork(); 
+long res = 0;
+res += t2.join(); 
+res += t1.join(); 
+return res;
                      </code></pre>
                 </section>
                 <section>
@@ -1063,37 +1098,41 @@ private static class StandardTask extends RecursiveTask<Long>
                     </ul>
                 </section>
                 <section>
+                    <h2>Fork/Join API</h2>
+                    <img src="img/work_steal.png">>
+                </section>
+                <section>
                     <h2>Parallel Stream</h2>
                     <ul>
                         <li>Использует FJP</li>
                         <li>BaseStream.parallel</li>
                         <li>Collection.parallelStream</li>
-                    </ul>
-                     <pre style="width:auto;"><code data-trim class="java">
+                        <pre style="width:auto;"><code data-trim class="java">
 double average = persons
     .parallelStream()
     .filter(p -> p.getGender() == Person.Sex.MALE)
     .mapToInt(Person::getAge)
     .average()
     .getAsDouble();
-                     </code></pre>
+                        </code></pre>
+                    </ul>
+
                 </section>
                 <section>
                     <h2>CompletableFuture</h2>
                     <ul>
                         <li>Удобный способ написания асинхронного кода</li>
                         <li>Создание:</li>
-                        <pre style="width:auto;"><code data-trim class="java medium">
+                        <pre style="width:auto;"><code data-trim class="java">
 CompletableFuture&lt;Integer> answer = CompletableFuture.completedFuture(42);
-                        </code></pre>
-                        <pre style="width:auto;"><code data-trim class="java medium fragment">
+
 CompletableFuture&lt;Integer> answer =  CompletableFuture.supplyAsync(() -> someOperation());
-                        </code></pre>
-                        <pre style="width:auto;"><code data-trim class="java medium fragment">
-CompletableFuture&lt;Integer> answer =  CompletableFuture.supplyAsync(() -> someOperation(),executorService);
+
+CompletableFuture&lt;Integer> answer =  CompletableFuture.supplyAsync(() -> someOperation(),
+                                                                                executorService);
                         </code></pre>
                         <li class="fragment">Получение результата</li>
-                        <pre style="width:auto;"><code data-trim class="java medium fragment">
+                        <pre style="width:auto;"><code data-trim class="java fragment">
                             Integer result = answer.get(); //блокирует
                         </code></pre>
                     </ul>
@@ -1102,19 +1141,29 @@ CompletableFuture&lt;Integer> answer =  CompletableFuture.supplyAsync(() -> some
                     <h2>CompletableFuture</h2>
                     <ul>
                         <li>Обработка результатов</li>
-                        <pre style="width:auto;"><code data-trim class="java medium">
+                        <pre style="width:auto;"><code data-trim class="java">
 CompletableFuture&lt;Integer> answer =  CompletableFuture.supplyAsync(() -> someOperation());
 answer.thenAccept(a -> System.out.format("Answer: %d", a));
                         </code></pre>
+                    </ul>
+                </section>
+                <section>
+                    <h2>CompletableFuture</h2>
+                    <ul>
                         <li>Цепочка обработки</li>
-                        <pre style="width:auto;"><code data-trim class="java medium">
+                        <pre style="width:auto;"><code data-trim class="java">
 CompletableFuture&lt;Integer> wordsCount =  CompletableFuture.supplyAsync(() -> getText())
                                                          .thenApply(text -> text.split(" "))
                                                          .thenApply(words -> words.length);
 System.out.format("Words count: %d", wordsCount.get());
                         </code></pre>
+                    </ul>
+                </section>
+                <section>
+                    <h2>CompletableFuture</h2>
+                    <ul>
                         <li>Обработка результатов нескольких CompletableFuture</li>
-                        <pre style="width:auto;"><code data-trim class="java medium">
+                        <pre style="width:auto;"><code data-trim class="java">
 CompletableFuture&lt;String> text1 =  CompletableFuture.supplyAsync(() -> getText(1));
 CompletableFuture&lt;String> text2 =  CompletableFuture.supplyAsync(() -> getText(1));
 CompletableFuture&lt;Integer> both = text1.
@@ -1129,7 +1178,7 @@ both.thenAccept(length -> System.out.format("Total length: %d", length));
                     <h2>CompletableFuture</h2>
                     <ul>
                         <li>Ожидание результатов нескольких CompletableFuture</li>
-                        <pre style="width:auto;"><code data-trim class="java medium">
+                        <pre style="width:auto;"><code data-trim class="java">
 CompletableFuture&lt;String> text1 =  CompletableFuture.supplyAsync(() -> getText(1));
 CompletableFuture&lt;String> text2 =  CompletableFuture.supplyAsync(() -> getText(2));
 CompletableFuture&lt;String> text3 =  CompletableFuture.supplyAsync(() -> getText(3));
@@ -1147,8 +1196,13 @@ allCompleted.thenRun(() -> {
 });
                 );
                         </code></pre>
-                         <li>Обработка ошибок</li>
-                        <pre style="width:auto;"><code data-trim class="java medium">
+                    </ul>
+                </section>
+                <section>
+                    <h2>CompletableFuture</h2>
+                    <ul>
+                        <li>Обработка ошибок</li>
+                        <pre style="width:auto;"><code data-trim class="java">
 CompletableFuture&lt;String> text1 =  CompletableFuture.supplyAsync(() -> getText(1));
 CompletableFuture&lt;String> recovered = text1.handle((result, throwable) -> {
                     if (throwable != null) {

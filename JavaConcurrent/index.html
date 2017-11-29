@@ -716,10 +716,16 @@ public class JobQueueWithLock{
     }
 
     public Runnable getJob(){
-        while (jobs.size()==0){
-            cond.await(); 
+        lock.lock();
+        try{
+            while (jobs.size() == 0){
+                cond.await();
+            }
+            return jobs.remove(0);
         }
-        return jobs.remove(0);
+        finally{
+            lock.unlock();
+        }
     }
 }
                     </code></pre>

@@ -900,14 +900,39 @@ public class ShoppingCard{
         myThreadLocal.get().add(item);
     }
 
+    public String getReceipt(){
+        StringBuilder sb = new StringBuilder();
+        myThreadLocal.get().forEach(item -> sb.append(String.format("%s - %d$\n", item.getName(), item.getPrice())));
+        return sb.toString();
+    }
+
     public void remove(Item item){
         myThreadLocal.get().add(item);
     }
-
-    public void printReceipt(){
-        myThreadLocal.get().forEach(item->System.out.format("%s - %d$",item.getName(),item.getPrice()));
-    }
 }
+                    </code></pre>
+                </section>
+                <section>
+                    <h2>ThreadLocal</h2>
+                    <pre style="width:auto;"><code data-trim class="java">
+ShoppingCard shoppingCard = new ShoppingCard();
+
+Thread customer1 = new Thread(() -> {
+    shoppingCard.add(new Item("Banana", 1));
+    shoppingCard.add(new Item("Beer", 5));
+    System.out.format("Receipt for customer1 :\n%s\n", shoppingCard.getReceipt());
+});
+
+Thread customer2 = new Thread(() -> {
+    shoppingCard.add(new Item("Cola", 2));
+    shoppingCard.add(new Item("Bread", 1));
+    System.out.format("Receipt for customer2 :\n%s\n", shoppingCard.getReceipt());
+});
+
+customer1.start();
+customer2.start();
+customer1.join();
+customer2.join();
                     </code></pre>
                 </section>
                 <section>

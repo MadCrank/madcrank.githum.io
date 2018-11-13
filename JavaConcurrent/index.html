@@ -41,7 +41,7 @@
 .reveal pre {
     background: none;
     border: none;
-    box-shadow: none;    
+    box-shadow: none;
 }
 
 .reveal pre code{
@@ -71,7 +71,7 @@
     font-size:22pt;
     color:black;
     text-align: center;
-    position: absolute; 
+    position: absolute;
     width:100%;
     bottom: 0.5em;
 }
@@ -93,7 +93,7 @@
   float: left;
   padding: 10px 7px;
   border-radius: 10px;
-  
+
   opacity: 0.8;
   -webkit-transform: rotate(-10deg);
   -o-transform: rotate(-10deg);
@@ -138,9 +138,15 @@
                 <section>
                     <h2>Что такое процесс?</h2>
                     <p><b>Процесс</b> — экземпляр программы во время выполнения, независимый объект, которому выделены системные ресурсы (например, процессорное время и память). Каждый процесс выполняется в отдельном адресном пространстве: один процесс не может получить доступ к переменным и структурам данных другого. Если процесс хочет получить доступ к чужим ресурсам, необходимо использовать межпроцессное взаимодействие.</p>
+                    <aside class="notes">
+                        <p>Начнем с определений - Что такое процесс?</p>
+                        <p>Грубо говоря поток это одно отдельно запущеное приложение.</p>
+                        <p>Процессу выделены какие-те ресурсы и он живет в своем отдельном адресном пространсте и никто в его домик проникнуть не может.</p>
+                        <p>Если ему или другим процессам понадобится обмениваться данными им придется использовать межпроцесные взаимодействия</p>
+                    </aside>
                 </section>
                 <section>
-                    <h2>Что такое поток?</h2>    
+                    <h2>Что такое поток?</h2>
                     <p><b>Поток</b> использует то же самое пространства стека, что и процесс, а множество потоков совместно используют данные своих состояний. Каждый поток может работать (читать и писать) с одной и той же областью памяти, в отличие от процессов, которые не могут просто так получить доступ к памяти другого процесса. У каждого потока есть собственные регистры и собственный стек, но другие потоки могут их использовать.</p>
                     <p></p>
                 </section>
@@ -229,7 +235,7 @@ t.start();
                         <li>Объект текущего потока можно получить из любого места кода</li>
                         </ul>
                     </ul>
-                    
+
                 </section>
                 <section>
                     <h2>Класс Thread</h2>
@@ -401,7 +407,7 @@ public static void main(String[] args)
 {
     Counter counter = new UnsafeCounter();
     ExperimentRunner runner = new ExperimentRunner(4, 5, 100_000_000);
-    runner.runExperiments(counter));   
+    runner.runExperiments(counter));
 }
                     </code></pre>
                 </section>
@@ -497,7 +503,7 @@ public class SynchronizedCounter implements Counter{
                     <h2>Ключевое слово synchronized</h2>
                     <p>Синхронизация блока на произвольном объекте</p>
                     <pre style="width:auto;"><code data-trim class="java">
-Object lock = new Object();                    
+Object lock = new Object();
 synchronized(lock){
 	//do something
 }
@@ -533,7 +539,7 @@ public class TestStaticSync{
                     <pre style="width:auto;"><code data-trim class="java">
 public class Singleton{
     private static Singleton instance;
-    
+
     public static synchronized Singleton getInstance(){
         if (instance == null){
             instance = new Singleton();
@@ -549,7 +555,7 @@ public class Singleton{
                     <pre style="width:auto;"><code data-trim class="java">
 public class Singleton {
         private static Singleton instance;
-    
+
         public static Singleton getInstance() {
         Singleton localInstance = instance;
         if (localInstance == null) {
@@ -573,7 +579,7 @@ public class Singleton {
                     <li>Значения в кешах разных потоков могут не совпадать</li>
                     </ul>
                     <pre style="width:auto;"><code data-trim class="java">
-volatile int i = 0; // означает, то что переменную i 
+volatile int i = 0; // означает, то что переменную i
                     //нужно всегда брать из общей памяти
                     </code></pre>
                 </section>
@@ -582,7 +588,7 @@ volatile int i = 0; // означает, то что переменную i
                     <pre style="width:auto;"><code data-trim class="java">
 public class Singleton {
         private static volatile Singleton instance;
-    
+
         public static Singleton getInstance() {
         Singleton localInstance = instance;
         if (localInstance == null) {
@@ -710,7 +716,7 @@ public class JobQueueWithLock{
         try {
             jobs.add(job);
             cond.signalAll();
-        } 
+        }
         finally {lock.unlock();}
     }
     public Runnable getJob(){
@@ -808,13 +814,13 @@ public class StampedLockCounter implements Counter
                 <section>
                     <h2>CAS</h2>
                     <pre style="width:auto;"><code data-trim class="java">
-public class SimulatedCAS 
+public class SimulatedCAS
 {
     private int value;
 
     public synchronized int getValue() { return value; }
 
-    public synchronized int compareAndSwap(int expectedValue, int newValue) 
+    public synchronized int compareAndSwap(int expectedValue, int newValue)
     {
         int oldValue = value;
         if (value == expectedValue)
@@ -1025,10 +1031,10 @@ for (int i = 3; i < 20; i++){
     clients.execute(() -> {
         try{
             Long result = future.get();
-            System.out.format("%s for %d = %d\n", 
+            System.out.format("%s for %d = %d\n",
                                idx % 2 == 0 ? "Fibonacci" : "Factorial",
                                idx, result);
-        } 
+        }
         catch (InterruptedException | ExecutionException e){
             e.printStackTrace();
         }
@@ -1085,11 +1091,11 @@ private static class StandardTask extends RecursiveTask&lt;Long>{
         int mid = (l + r) >>> 1;
         ForkJoinTask&lt;Long> t1 = new StandardTask(problem, l, mid);
         ForkJoinTask&lt;Long> t2 = new StandardTask(problem, mid, r);
-        t1.fork(); 
-        t2.fork(); 
+        t1.fork();
+        t2.fork();
         long res = 0;
-        res += t2.join(); 
-        res += t1.join(); 
+        res += t2.join();
+        res += t1.join();
         return res;
     }
  }
@@ -1101,11 +1107,11 @@ private static class StandardTask extends RecursiveTask&lt;Long>{
                     <pre style="width:auto;"><code data-trim class="java">
 ForkJoinTask&lt;Long> t1 = new StandardTask(problem, l, mid);
 ForkJoinTask&lt;Long> t2 = new StandardTask(problem, mid, r);
-t1.fork(); 
-t2.fork(); 
+t1.fork();
+t2.fork();
 long res = 0;
-res += t2.join(); 
-res += t1.join(); 
+res += t2.join();
+res += t1.join();
 return res;
                      </code></pre>
                 </section>
@@ -1244,7 +1250,7 @@ CompletableFuture&lt;String> text2 =  CompletableFuture.supplyAsync(() -> getTex
 CompletableFuture&lt;String> recovered = text1.exceptionally(throwable -> "Sorry, try again later");
                         </code></pre>
                     </ul>
-                </section>                
+                </section>
                 <section>
                         <h1>Вопросы?</h1>
                 </section>

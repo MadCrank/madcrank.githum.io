@@ -134,6 +134,9 @@
                     <h1>Многопоточность</h1>
                     <h2>и</h2>
                     <h1>JAVA</h1>
+                    <aside class="notes">
+
+                    </aside>
                 </section>
                 <section>
                     <h2>Что такое процесс?</h2>
@@ -149,10 +152,16 @@
                     <h2>Что такое поток?</h2>
                     <p><b>Поток</b> использует то же самое пространства стека, что и процесс, а множество потоков совместно используют данные своих состояний. Каждый поток может работать (читать и писать) с одной и той же областью памяти, в отличие от процессов, которые не могут просто так получить доступ к памяти другого процесса. У каждого потока есть собственные регистры и собственный стек, но другие потоки могут их использовать.</p>
                     <p></p>
+                    <aside class="notes">
+
+                    </aside>
                 </section>
                 <section>
                     <h2>Процессы и потоки</h2>
                     <img src="img/processes_and_threads.png">
+                    <aside class="notes">
+
+                    </aside>
                 </section>
                 <section>
                     <h2>Как представлен поток в JAVA?</h2>
@@ -161,10 +170,16 @@
                         <li>После вызова метода start(), <i>через какое-то время</i> будет вызван run()</li>
                         <li>Метод run() будет выполнен в своем стеке.</li>
                     </ul>
+                    <aside class="notes">
+
+                    </aside>
                 </section>
                 <section>
                     <h2>Роль операционной системы</h2>
                     <img src="img/processes_and_threads.png">
+                    <aside class="notes">
+
+                    </aside>
                 </section>
                 <section>
                     <h2>Роль операционной системы</h2>
@@ -173,14 +188,23 @@
                         <li>Переключает потоки</li>
                         <li>API для уведомления потока</li>
                     </ul>
+                    <aside class="notes">
+
+                    </aside>
                 </section>
                 <section>
                     <h2>Запуск потоков</h2>
                     <img src="img/threads_timeline.png">
+                    <aside class="notes">
+
+                    </aside>
                 </section>
                 <section>
                     <h2>Порядок не определен!</h2>
                     <img src="img/threads_timeline2.png">
+                    <aside class="notes">
+
+                    </aside>
                 </section>
                 <section>
                     <h2>Java Concurrency</h2>
@@ -189,6 +213,9 @@
                         <li>Сделать всё руками: Thread, Runable, wait/notify, synchronized</li>
                         <li>Использовать высокоуровневое API: java.utils.concurrent</li>
                     </ul>
+                    <aside class="notes">
+
+                    </aside>
                 </section>
                 <section>
                     <h2>Как создать поток?</h2>
@@ -203,6 +230,9 @@ Thread t = new Thread(new Runnable() {
 // Запуск потока
 t.start();
                     </code></pre>
+                    <aside class="notes">
+
+                    </aside>
                 </section>
                 <section>
                     <h2>Как создать поток?</h2>
@@ -217,6 +247,9 @@ Thread t = new Thread() {
 // Запуск потока
 t.start();
                     </code></pre>
+                    <aside class="notes">
+
+                    </aside>
                 </section>
                 <section>
                     <h2>Thread vs Runnable</h2>
@@ -236,6 +269,9 @@ t.start();
                         </ul>
                     </ul>
 
+                    <aside class="notes">
+
+                    </aside>
                 </section>
                 <section>
                     <h2>Класс Thread</h2>
@@ -253,12 +289,18 @@ void join()
 static void yield()
                     </code></pre>
                     <div class="cartoon fragment"><img src="img/threads_and_kitten.png"/></div>
+                    <aside class="notes">
+
+                    </aside>
                 </section>
                 <section>
                     <h2>Прерывания</h2>
                     <pre style="width:auto;"><code data-trim class="java">
 thread.interrupt(); //прервать поток thread
                     </code></pre>
+                    <aside class="notes">
+
+                    </aside>
                 </section>
                                 <section>
                     <h2>Прерывания</h2>
@@ -271,6 +313,9 @@ catch(InterruptedException e){ //нас прервали
     return;
 }
                     </code></pre>
+                                    <aside class="notes">
+
+                                    </aside>
                 </section>
                 <section>
                     <h2>Прерывания</h2>
@@ -282,14 +327,23 @@ for(int i = 0; i< inputs[i];i++){
     }
 }
                     </code></pre>
+                    <aside class="notes">
+
+                    </aside>
                 </section>
                 <section>
                     <h2>Состояния потоков</h2>
                     <img src="img/thread_states.png"/>
+                    <aside class="notes">
+
+                    </aside>
                 </section>
                 <section>
                     <h2>Классические задачи многопоточного программирования</h2>
                     <div class="cartoon"><img src="img/problem.png"/></div>
+                    <aside class="notes">
+
+                    </aside>
                 </section>
                 <section>
                     <h2>Задача доступа к общему ресурсу</h2>
@@ -298,6 +352,9 @@ for(int i = 0; i< inputs[i];i++){
                         <li>Несколько потоков обращаются к общему ресурсу</li>
                     </ul>
                     <img src="img/shared_resource.png"/>
+                    <aside class="notes">
+
+                    </aside>
                 </section>
                 <section>
                     <h2>Счетчик</h2>
@@ -322,6 +379,9 @@ public class UnsafeCounter implements Counter{
 
 }
                     </code></pre>
+                    <aside class="notes">
+
+                    </aside>
                 </section>
                 <section>
                     <pre style="width:auto;"><code data-trim class="java small">
@@ -373,6 +433,9 @@ public class ExperimentRunner{
     }
 }
                     </code></pre>
+                    <aside class="notes">
+
+                    </aside>
                 </section>
                 <section>
                     <h2>Запуск эксперимента</h2>
@@ -398,6 +461,9 @@ private void runExperiment(Counter counter){
     });
 }
                     </code></pre>
+                    <aside class="notes">
+
+                    </aside>
                 </section>
 
                 <section>
@@ -410,6 +476,9 @@ public static void main(String[] args)
     runner.runExperiments(counter));
 }
                     </code></pre>
+                    <aside class="notes">
+
+                    </aside>
                 </section>
 
                 <section>
@@ -425,10 +494,16 @@ Counter 'ru.naumen.counter.impls.UnsafeCounter':
                      </pre>
                      <p>Быстро, но неправильно.</p>
                      <div class="cartoon"><img src="img/boo.png"/></div>
+                    <aside class="notes">
+
+                    </aside>
                 </section>
                  <section>
                     <h2>Инкремент  не атомарен</h2>
                     <img src="img/concurrent_increment.png"/>
+                     <aside class="notes">
+
+                     </aside>
                 </section>
                 <section>
                     <h2>Базовые термины</h2>
@@ -439,10 +514,16 @@ Counter 'ru.naumen.counter.impls.UnsafeCounter':
                         <li>Monitor</li>
                         <li>Lock</li>
                     </ul>
+                    <aside class="notes">
+
+                    </aside>
                 </section>
                 <section>
                     <h2>Critical Section</h2>
                     <p>Участок исполняемого кода программы, в котором производится доступ к общему ресурсу (данным или устройству), который не должен быть одновременно использован более чем одним потоком исполнения</p>
+                    <aside class="notes">
+
+                    </aside>
                 </section>
                 <section>
                     <h2>Semaphore</h2>
@@ -458,21 +539,33 @@ enter()://Захват семафора (ждать пока счётчик ст
 leave()://Освобождение семафора (увеличить счётчик на единицу)
     счётчик := счётчик + 1
                     </pre>
+                    <aside class="notes">
+
+                    </aside>
                 </section>
                 <section>
                     <h2>Mutex</h2>
                     <p>это простейшие двоичные семафоры, которые могут находиться в одном из двух состояний — отмеченном или неотмеченном.</p>
+                    <aside class="notes">
+
+                    </aside>
                 </section>
                 <section>
                     <h2>Monitor</h2>
                     <p>Высокоуровневая кострукция, которая состоит из mutex-а и массива ожидающих очереди потоков.</p>
                     <p>У монитора должен быть механизм остановки потока и сигнализации о доступности продолжения работы.</p>
+                    <aside class="notes">
+
+                    </aside>
                 </section>
                 <section>
                     <h2>Lock</h2>
                     <p>Это механизм синхронизации, позволяющий обеспечить исключительный доступ к разделяемому ресурсу между несколькими потоками</p>
                     <p><b>Мягкая блокировка</b> — каждый поток пытается получить блокировку перед доступом к соответсвующему разделяемому ресурсу.</p>
                     <p><b>Обязательная блокировка</b> — попытка несанкционированного доступа к заблокированному ресурсу будет прервана, через создание исключения.</p>
+                    <aside class="notes">
+
+                    </aside>
                 </section>
                 <section>
                     <h2>Ключевое слово synchronized</h2>
@@ -498,6 +591,9 @@ public class SynchronizedCounter implements Counter{
 }
                     </code></pre>
                     <div class="rubber_stamp fragment">AVG. TIME = 6076 ms</div>
+                    <aside class="notes">
+
+                    </aside>
                 </section>
                 <section>
                     <h2>Ключевое слово synchronized</h2>
@@ -508,6 +604,9 @@ synchronized(lock){
 	//do something
 }
                     </code></pre>
+                    <aside class="notes">
+
+                    </aside>
                 </section>
                 <section>
                     <h2>Ключевое слово synchronized</h2>
@@ -520,6 +619,9 @@ public class TestStaticSync{
 }
                     </code></pre>
                     <p>Синхронизация происходит на объекте TestStaticSync.class</p>
+                    <aside class="notes">
+
+                    </aside>
                 </section>
                 <section>
                     <h2>Singleton</h2>
@@ -533,6 +635,9 @@ public class TestStaticSync{
                         <li>Ленивый</li>
                         <li>Эффективный</li>
                     </ul>
+                    <aside class="notes">
+
+                    </aside>
                 </section>
                 <section>
                     <h2>Synchronized Accessor</h2>
@@ -549,6 +654,9 @@ public class Singleton{
 }
                     </code></pre>
                     <div class="cartoon fragment"><img src="img/boo.png"/></div>
+                    <aside class="notes">
+
+                    </aside>
                 </section>
                 <section>
                     <h2>Double Checked Locking</h2>
@@ -571,6 +679,9 @@ public class Singleton {
 }
                     </code></pre>
                     <div class="cartoon fragment"><img src="img/boo.png"/></div>
+                    <aside class="notes">
+
+                    </aside>
                 </section>
                 <section>
                     <h2>volatile</h2>
@@ -582,6 +693,9 @@ public class Singleton {
 volatile int i = 0; // означает, то что переменную i
                     //нужно всегда брать из общей памяти
                     </code></pre>
+                    <aside class="notes">
+
+                    </aside>
                 </section>
                                 <section>
                     <h2>Double Checked Locking &amp; volatile</h2>
@@ -604,11 +718,17 @@ public class Singleton {
 }
                     </code></pre>
                     <div class="cartoon fragment"><img src="img/thumbs_up.png"/></div>
+                                    <aside class="notes">
+
+                                    </aside>
                 </section>
                 <section>
                     <h2>Очередь заданий</h2>
                     <img src="img/producer-consumer-model.png"/>
                     <div class="cartoon"><img src="img/problem.png"/></div>
+                    <aside class="notes">
+
+                    </aside>
                 </section>
                 <section>
                     <h2>wait()/notify()/notifyAll()</h2>
@@ -629,6 +749,9 @@ public class JobQueue{
  }
 }
                     </code></pre>
+                    <aside class="notes">
+
+                    </aside>
                 </section>
                 <section>
                     <h2>interface Lock</h2>
@@ -644,6 +767,9 @@ finally
     l.unlock() //гарантия того, что блокировка будет отпущена
 }
                     </code></pre>
+                    <aside class="notes">
+
+                    </aside>
                 </section>
                 <section>
                     <h2>interface Lock</h2>
@@ -652,6 +778,9 @@ finally
                         <li>ReentrantLock</li>
                         <li>ReadWriteLock - имеет разные механизмы блокировки на чтение и запись, позволяя уменьшить накладные расходы</li>
                     </ul>
+                    <aside class="notes">
+
+                    </aside>
                 </section>
                 <section>
                     <h2>ReentrantLock</h2>
@@ -680,6 +809,9 @@ public class ReentrantLockCounter implements Counter{
 }
                     </code></pre>
                     <div class="rubber_stamp fragment">AVG. TIME = 3654 ms</div>
+                    <aside class="notes">
+
+                    </aside>
                 </section>
                 <section>
                     <h2>interface Condition</h2>
@@ -691,6 +823,9 @@ void signal();
 void signalAll();
                         </code></pre>
                     </ul>
+                    <aside class="notes">
+
+                    </aside>
                 </section>
                 <section>
                     <h2>interface Condition</h2>
@@ -703,6 +838,9 @@ Condition blockingPoolB = lock.newCondition();
 Condition blockingPoolC = lock.newCondition();
                         </code></pre>
                     </ul>
+                    <aside class="notes">
+
+                    </aside>
                 </section>
                 <section>
                     <h2>Condition: применение</h2>
@@ -732,6 +870,9 @@ public class JobQueueWithLock{
     }
 }
                     </code></pre>
+                    <aside class="notes">
+
+                    </aside>
                 </section>
                 <section>
                     <h2>Задача о читателях и писателях</h2>
@@ -742,6 +883,9 @@ public class JobQueueWithLock{
                     </ul>
                     <img src="img/readers_and_writers.png"/>
                     <div class="cartoon"><img src="img/problem.png"/></div>
+                    <aside class="notes">
+
+                    </aside>
                 </section>
                 <section>
                     <h2>ReentrantReadWriteLock</h2>
@@ -767,6 +911,9 @@ public class RWLockCounter implements Counter{
 }
                     </code></pre>
                     <div class="rubber_stamp fragment">AVG. TIME = 3544 ms</div>
+                    <aside class="notes">
+
+                    </aside>
                 </section>
                 <section>
                     <h2>StampedLock</h2>
@@ -795,11 +942,17 @@ public class StampedLockCounter implements Counter
 }
                     </code></pre>
                     <div class="rubber_stamp fragment">AVG. TIME = 3164 ms</div>
+                    <aside class="notes">
+
+                    </aside>
                 </section>
                 <section>
                     <h2>Атомарные операции</h2>
                     <p>Атомарные операции выполняются целиком, их выполнение не может быть прервано планировщиком потоков.</p>
                     <p>Аппаратная поддержка — compare-and-swap</p>
+                    <aside class="notes">
+
+                    </aside>
                 </section>
                 <section>
                     <h2>Атомарные операции</h2>
@@ -810,6 +963,9 @@ public class StampedLockCounter implements Counter
                         <li>AtomicDouble</li>
                         <li>AtomicReference</li>
                     </ul>
+                    <aside class="notes">
+
+                    </aside>
                 </section>
                 <section>
                     <h2>CAS</h2>
@@ -831,6 +987,9 @@ public class SimulatedCAS
     }
 }
                 </code></pre>
+                    <aside class="notes">
+
+                    </aside>
                 </section>
                 <section>
                     <h2>AtomicInteger</h2>
@@ -859,6 +1018,9 @@ public class AtomicCounter implements Counter
 }
                     </code></pre>
                     <div class="rubber_stamp fragment">AVG. TIME = 1701 ms</div>
+                    <aside class="notes">
+
+                    </aside>
                 </section>
                 <section>
                     <h2>Производительность</h2>
@@ -892,6 +1054,9 @@ public class AtomicCounter implements Counter
                             </tr>
                         </tbody>
                     </table>
+                    <aside class="notes">
+
+                    </aside>
                 </section>
                 <section>
                     <h2>ThreadLocal</h2>
@@ -917,6 +1082,9 @@ public class ShoppingCard{
     }
 }
                     </code></pre>
+                    <aside class="notes">
+
+                    </aside>
                 </section>
                 <section>
                     <h2>ThreadLocal</h2>
@@ -940,6 +1108,9 @@ customer2.start();
 customer1.join();
 customer2.join();
                     </code></pre>
+                    <aside class="notes">
+
+                    </aside>
                 </section>
                 <section>
                     <h2>Потокобезопасные структуры данных</h2>
@@ -952,6 +1123,9 @@ customer2.join();
                         <li>ConcurrentSkipListMap</li>
                         <li>ConcurrentSkipListSet</li>
                     </ul>
+                    <aside class="notes">
+
+                    </aside>
                 </section>
                  <section>
                     <h2>Copy-on-write</h2>
@@ -962,6 +1136,9 @@ customer2.join();
                         <li>Сортировки нет</li>
                         <li>Итераторы не поддерживают операций модификации</li>
                     </ul>
+                     <aside class="notes">
+
+                     </aside>
                 </section>
                 <section>
                     <h2>Производитель-потребитель</h2>
@@ -972,6 +1149,9 @@ customer2.join();
                     </ul>
                     <img src="img/producer_consumer.png"/>
                     <div class="cartoon"><img src="img/problem.png"/></div>
+                    <aside class="notes">
+
+                    </aside>
                 </section>
                 <section>
                     <h2>Задания-работники</h2>
@@ -980,6 +1160,9 @@ customer2.join();
                     </ul>
                     <img src="img/task_and_workers.png"/>
                     <div class="cartoon"><img src="img/problem.png"/></div>
+                    <aside class="notes">
+
+                    </aside>
                 </section>
                 <section>
                     <h2>Блокирующие очереди</h2>
@@ -992,6 +1175,9 @@ customer2.join();
                         <li>LinkedTransferQueue     универсальная очередь</li>
                         <li>SynchronousQueue        ёмкость 0</li>
                     </ul>
+                    <aside class="notes">
+
+                    </aside>
                 </section>
                 <section>
                     <h2>Пул потоков</h2>
@@ -1000,6 +1186,9 @@ customer2.join();
                         <li>Ограниченное число потоков</li>
                         <li>Очередь заданий</li>
                     </ul>
+                    <aside class="notes">
+
+                    </aside>
                 </section>
                 <section>
                     <h2>ExecutorService Framework</h2>
@@ -1015,6 +1204,9 @@ Executors.newSingleThreadExecutor();    //Ровно один поток
 
 Executors.newScheduledThreadPool();     //Можно настроить задержку запуска / повторный запуск
                     </code></pre>
+                    <aside class="notes">
+
+                    </aside>
                 </section>
                 <section>
                 <h2>Clients &amp; Workers</h2>
@@ -1043,6 +1235,9 @@ for (int i = 3; i < 20; i++){
 workers.shutdown();
 clients.shutdown();
                     </code></pre>
+                    <aside class="notes">
+
+                    </aside>
                 </section>
                 <section>
                     <h2>Fork/Join API</h2>
@@ -1058,6 +1253,9 @@ clients.shutdown();
                             <li> RecursiveTask&lt;V></li>
                         </ul>
                     </ul>
+                    <aside class="notes">
+
+                    </aside>
                 </section>
                 <section>
                     <h2>Fork/Join API</h2>
@@ -1069,6 +1267,9 @@ clients.shutdown();
                             <li>Свободные потоки крадут задачи у перегруженных(из хвоста)</li>
                         </ul>
                     </ul>
+                    <aside class="notes">
+
+                    </aside>
                 </section>
                 <section>
                     <h2>Fork/Join API</h2>
@@ -1100,6 +1301,9 @@ private static class StandardTask extends RecursiveTask&lt;Long>{
     }
  }
                      </code></pre>
+                    <aside class="notes">
+
+                    </aside>
                 </section>
                 <section>
                     <h2>Fork/Join API</h2>
@@ -1114,6 +1318,9 @@ res += t2.join();
 res += t1.join();
 return res;
                      </code></pre>
+                    <aside class="notes">
+
+                    </aside>
                 </section>
                 <section>
                     <h2>Fork/Join API</h2>
@@ -1130,10 +1337,16 @@ return res;
                             <li>FJP может дать ему что-нибудь повыполнять</li>
                         </ul>
                     </ul>
+                    <aside class="notes">
+
+                    </aside>
                 </section>
                 <section>
                     <h2>Fork/Join API</h2>
                     <img src="img/work_steal.png">>
+                    <aside class="notes">
+
+                    </aside>
                 </section>
                 <section>
                     <h2>Parallel Stream</h2>
@@ -1151,6 +1364,9 @@ double average = persons
                         </code></pre>
                     </ul>
 
+                    <aside class="notes">
+
+                    </aside>
                 </section>
                 <section>
                     <h2>CompletableFuture</h2>
@@ -1170,6 +1386,9 @@ CompletableFuture&lt;Integer> answer =  CompletableFuture.supplyAsync(() -> some
                             Integer result = answer.get(); //блокирует
                         </code></pre>
                     </ul>
+                    <aside class="notes">
+
+                    </aside>
                 </section>
                 <section>
                     <h2>CompletableFuture</h2>
@@ -1180,6 +1399,9 @@ CompletableFuture&lt;Integer> answer =  CompletableFuture.supplyAsync(() -> some
 answer.thenAccept(a -> System.out.format("Answer: %d", a));
                         </code></pre>
                     </ul>
+                    <aside class="notes">
+
+                    </aside>
                 </section>
                 <section>
                     <h2>CompletableFuture</h2>
@@ -1192,6 +1414,9 @@ CompletableFuture&lt;Integer> wordsCount =  CompletableFuture.supplyAsync(() -> 
 System.out.format("Words count: %d", wordsCount.get());
                         </code></pre>
                     </ul>
+                    <aside class="notes">
+
+                    </aside>
                 </section>
                 <section>
                     <h2>CompletableFuture</h2>
@@ -1207,6 +1432,9 @@ CompletableFuture&lt;Integer> both = text1.
 both.thenAccept(length -> System.out.format("Total length: %d", length));
                         </code></pre>
                     </ul>
+                    <aside class="notes">
+
+                    </aside>
                 </section>
                 <section>
                     <h2>CompletableFuture</h2>
@@ -1231,6 +1459,9 @@ allCompleted.thenRun(() -> {
                 );
                         </code></pre>
                     </ul>
+                    <aside class="notes">
+
+                    </aside>
                 </section>
                 <section>
                     <h2>CompletableFuture</h2>
@@ -1250,9 +1481,15 @@ CompletableFuture&lt;String> text2 =  CompletableFuture.supplyAsync(() -> getTex
 CompletableFuture&lt;String> recovered = text1.exceptionally(throwable -> "Sorry, try again later");
                         </code></pre>
                     </ul>
+                    <aside class="notes">
+
+                    </aside>
                 </section>
                 <section>
                         <h1>Вопросы?</h1>
+                    <aside class="notes">
+
+                    </aside>
                 </section>
             </div>
         </div>

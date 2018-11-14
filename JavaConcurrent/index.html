@@ -406,6 +406,7 @@ for(int i = 0; i< inputs[i];i++){
             <div class="cartoon"><img src="img/problem.png"/></div>
             <aside class="notes">
                 На следующем слайде и далее я буду рассказывать о классических задачах многопоточного программирования.
+                Я это буду делать перед тем как рассказать о каком-то механизме который будет решать эту задачу.
                 Они будут помечаться вот таким значком.
             </aside>
         </section>
@@ -881,7 +882,8 @@ finally
 }
                     </code></pre>
             <aside class="notes">
-                Блокировочка в JAVA описана интерфейсом Lock. На слайде показано, как правильно пользоваться блокировкой.
+                Блокировочка в JAVA описана интерфейсом Lock. На слайде показано, как правильно пользоваться
+                блокировкой.
             </aside>
         </section>
         <section>
@@ -894,7 +896,8 @@ finally
                 </li>
             </ul>
             <aside class="notes">
-                Существует две сымые частоиспользуемые реализации блокировок: просто блокировка и блокировка с разделением на чтение запись.
+                Существует две сымые частоиспользуемые реализации блокировок: просто блокировка и блокировка с
+                разделением на чтение запись.
                 Пишет один, читают много, читать когда пишут нельзя.
             </aside>
         </section>
@@ -955,7 +958,7 @@ Condition blockingPoolC = lock.newCondition();
                         </code></pre>
             </ul>
             <aside class="notes">
-                Получается он следующи образом
+                Получается он следующим образом
             </aside>
         </section>
         <section>
@@ -1000,7 +1003,7 @@ public class JobQueueWithLock{
             <img src="img/readers_and_writers.png"/>
             <div class="cartoon"><img src="img/problem.png"/></div>
             <aside class="notes">
-
+                Вот еще одна задачка, собсвенно для решения которой в том числе и придумали RW блокировку
             </aside>
         </section>
         <section>
@@ -1028,6 +1031,9 @@ public class RWLockCounter implements Counter{
                     </code></pre>
             <div class="rubber_stamp fragment">AVG. TIME = 3544 ms</div>
             <aside class="notes">
+                Вот реализация счетчика на RW блокировке в инкременте мы используем write-lock, а для get используем
+                read. Мы видим, что время не отличается от примера с просто блокировкой. Это так, потому что у нас
+                только запись, поэто преимущества мы не видим.
 
             </aside>
         </section>
@@ -1059,7 +1065,8 @@ public class StampedLockCounter implements Counter
                     </code></pre>
             <div class="rubber_stamp fragment">AVG. TIME = 3164 ms</div>
             <aside class="notes">
-
+                Интересная реализация, с ним можно работать как с обычным rw-локом. Но есть понятие оптимистичной
+                блокировки tryOptimisticRead() этот метод возвращает штамп котоый мы можем валидировать методом validate
             </aside>
         </section>
         <section>
@@ -1067,7 +1074,9 @@ public class StampedLockCounter implements Counter
             <p>Атомарные операции выполняются целиком, их выполнение не может быть прервано планировщиком потоков.</p>
             <p>Аппаратная поддержка — compare-and-swap</p>
             <aside class="notes">
-
+                Атомарные означает неделимые, во время их выполнения планировщик не может прервать поток. Они довольно
+                быстрые, благодаря тому, что это реализовано на уровне процессора. Про то как работает CAS я расскажу
+                через слайд.
             </aside>
         </section>
         <section>
@@ -1080,7 +1089,8 @@ public class StampedLockCounter implements Counter
                 <li>AtomicReference</li>
             </ul>
             <aside class="notes">
-
+                В java все что касается атомарных операций находится в java.util.concurrent.atomic
+                Реализованны атомарные версии примитивных типов и ссылок.
             </aside>
         </section>
         <section>
@@ -1104,7 +1114,10 @@ public class SimulatedCAS
 }
                 </code></pre>
             <aside class="notes">
-
+                Ну а вот так примерно работает CAS. очень примерно) В случае если нам нужно изменить какуюто переменную
+                мы вызываем compareAndSwap передавая значаение которое нам известно и новое значение. Если значение
+                совпало с текущим, все просто - мы меняем значение, если нет - то возвращаем текущее значение. и код
+                вызывающий compareAndSwap должен это как то обработать.
             </aside>
         </section>
         <section>
@@ -1135,7 +1148,7 @@ public class AtomicCounter implements Counter
                     </code></pre>
             <div class="rubber_stamp fragment">AVG. TIME = 1701 ms</div>
             <aside class="notes">
-
+                Вот реализация счетчик на атомарном инте. И она показывает фантастический результат)
             </aside>
         </section>
         <section>
@@ -1171,7 +1184,9 @@ public class AtomicCounter implements Counter
                 </tbody>
             </table>
             <aside class="notes">
-
+                Вот сравнительная таблица результатов.
+                Ну а теперь в энциклопедическом варианте я вас попытаюсь познакомить с фишками языка Java для реализации
+                многопоточности.
             </aside>
         </section>
         <section>
@@ -1194,12 +1209,14 @@ public class ShoppingCard{
     }
 
     public void remove(Item item){
-        myThreadLocal.get().add(item);
+        myThreadLocal.get().remove(item);
     }
 }
                     </code></pre>
             <aside class="notes">
-
+                Мы до этого в основном говорили об организации многопоточного доступа к одному ресурсу, но иногда перед
+                нами стоит обратная задача - организовать хранилище к которому имеет доступ только один поток. Для этого
+                в java есть ThreadLocal. Рассмотрим их применение на примере покупательской корзины.
             </aside>
         </section>
         <section>
@@ -1225,7 +1242,8 @@ customer1.join();
 customer2.join();
                     </code></pre>
             <aside class="notes">
-
+                Здесь мы видим, что корзина одна, а потока два. Но в выводе программы мы увидим, что у каждого в корзине
+                по два продукта и там именно то что он помещал.
             </aside>
         </section>
         <section>
@@ -1240,7 +1258,10 @@ customer2.join();
                 <li>ConcurrentSkipListSet</li>
             </ul>
             <aside class="notes">
-
+                Разработчики Java позаботились о нас и подготовили для нас набор потокобезопасных структур данных на все
+                случаи жизни. В принципе чаще всего их достаточно, можно ими пользоваться и ваще не вспоминать, тот ужас
+                о котором я говорил последние 40 минут) Рассмотрим, что же нам предлагает java, про Copy-on-write я
+                расскажу на следующем слайде. расскажу про Concurrent структуры.
             </aside>
         </section>
         <section>
@@ -1303,7 +1324,8 @@ customer2.join();
                 <li>Очередь заданий</li>
             </ul>
             <aside class="notes">
-
+                Создание потока это дорогая операция, поэтому лучше их не создавать каждый раз, а переиспользавать для
+                этого есть пулы потоков.
             </aside>
         </section>
         <section>

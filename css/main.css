@@ -5,6 +5,9 @@ body {
     padding: 0;
     color: #474747;
     font-size: 14px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 h1,
@@ -67,6 +70,10 @@ header > nav li {
     display: inline-block;
     padding: 0 8px;
     height: 100%;
+}
+
+main{
+    margin-top: 48px
 }
 
 aside {
@@ -134,7 +141,7 @@ section#hello {
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    margin: 48px 0 0 0;
+    margin: 0;
 }
 .avatar {
     background-image: url(/assets/me.png);
@@ -353,4 +360,12 @@ section#expirience h3{
 
 #so {
     background-image: url("../assets/so.png");
+}
+
+section#error{
+    text-align: center;
+}
+
+section#error h2{
+    font-size: 48px
 }

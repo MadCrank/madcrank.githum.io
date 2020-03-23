@@ -1,0 +1,13 @@
+{% capture github_username %}{{ site.github_username }}{% endcapture %}
+
+{% capture stack_overflow_id %}{{ site.stack_overflow_id }}{% endcapture %}
+
+{% include header.html %}
+
+<article>
+    <h1>{{page.title}}</h1>
+    <small>{{page.date}}</small>
+    {{ content }}
+</article>
+
+{% include footer.html %}

@@ -1,0 +1,30 @@
+---
+layout: default
+---
+<div id="contacts">
+    <h1>Контакты</h1>
+    <section id="contact-links">
+        <h2>EMAIL</h2>
+        <p>
+            <a href="mailto:to.madcrank@gmail.com">to.madcrank@gmail.com</a>
+        </p>
+        <h2>TELEGRAM</h2>
+        <p>
+            <a href="https://t.me/pzykov">@pzykov</a>
+        </p>
+        <h2>SKYPE</h2>
+        <p>
+            <a href="skype:profile_name?action=chat">mad_crank</a>
+        </p>
+    </section>
+    <section id="contact-form">
+        <form>
+            <label for="subject">Тема</label>
+            <input type="text" id="subject" onfocusout="updateMailLink()"/>
+            <label  for="message">Сообщение</label>
+            <textarea id="message" onfocusout="updateMailLink()"></textarea>
+            <a id="mailLink">Отправить</a>
+        </form>
+    </section>
+
+</div>

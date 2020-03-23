@@ -1,0 +1,17 @@
+---
+layout: default
+---
+
+<article>
+    {% for post in site.posts %}
+    <section>
+        <h2><a href="{{ post.url }}" class="blog-title">{{post.title}}</a></h2>
+        <small>{{post.date}}</small>
+        {{ post.excerpt }}
+        <a href="{{ post.url }}">{{ "Подробнее &#8594;" }}</a>
+        {% if post.previous != nil  %}
+        {% endif %}
+    </section>
+
+    {% endfor %}
+</article>

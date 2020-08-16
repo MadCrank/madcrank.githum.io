@@ -194,20 +194,21 @@ header .hidenAvatar {
     font-size: 26px;
 }
 
+.chip {
+    background-color: #e6e6e6;
+    border-radius: 15px;
+    color: #555;
+    font-size: 12px;
+    margin: 4px;
+    padding: 4px 8px;
+    transition: box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 1;
+}
+
 .chips {
     display: flex;
     flex-direction: row;
     flex-flow: wrap;
-}
-
-.chip {
-    color: #555;
-    background-color: #e6e6e6;
-    border-radius: 15px;
-    padding: 4px 8px;
-    margin: 4px;
-    transition: box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-    font-size: 12px;
 }
 
 .chip:hover {

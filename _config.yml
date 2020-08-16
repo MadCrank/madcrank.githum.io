@@ -28,12 +28,17 @@ markdown: kramdown
 plugins:
   - jekyll-feed
 
+collections:
+  - educations
+  - jobs
+
 # Exclude from processing.
-# exclude:
-#   - docker-compose.yml
-#   - Gemfile
-#   - Gemfile.lock
-#   - Makefile
+exclude:
+   - docker-compose.yml
+   - Gemfile
+   - Gemfile.lock
+   - Makefile
+   - .idea/
 #   - node_modules
 #   - vendor/bundle/
 #   - vendor/cache/
